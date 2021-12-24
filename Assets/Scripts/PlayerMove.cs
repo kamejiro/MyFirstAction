@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -47,7 +48,7 @@ public class PlayerMove : MonoBehaviour
         float z = Input.GetAxis("Vertical");
         Vector3 vector3 = new Vector3(x, 0, z);
         rb.AddForce(vector3 * speed);
-        MoveRestriction();
+        //MoveRestriction();
 
     }
 
@@ -63,5 +64,13 @@ public class PlayerMove : MonoBehaviour
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -posXClamp, posXClamp),
                                          Mathf.Clamp(transform.position.y, -posYClamp, posYClamp),
                                          Mathf.Clamp(transform.position.z, -posZClamp, posZClamp));
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Fall"))
+        {
+            SceneManager.LoadScene("Main");
+        }
     }
 }
