@@ -3,24 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Timer : MonoBehaviour
+public class Score : MonoBehaviour
 {
-    public static float time;
-
+    public static int score;
     // Start is called before the first frame update
     void Start()
     {
-        time = 0;
+        score = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!Goal.isGoal)
-        {
-            time += Time.deltaTime;
-            GetComponent<Text>().text = "Time: " + Mathf.FloorToInt(time);
-        }
-
+        GetComponent<Text>().text = "Score: " + score;
     }
 }

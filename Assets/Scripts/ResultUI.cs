@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ResultUI : MonoBehaviour
 {
     public GameObject result;
+    public Text scoreText;
+    public Text timerText;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +22,18 @@ public class ResultUI : MonoBehaviour
         if (Goal.isGoal)
         {
             result.SetActive(true);
+            scoreText.text = "Score: " + Score.score;
+            timerText.text = "Time: " + Mathf.FloorToInt(Timer.time);
         }
     }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("Main");
+    }
+    public void ToStart()
+    {
+        SceneManager.LoadScene("Start");
+    }
+
 }
