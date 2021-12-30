@@ -6,13 +6,33 @@ using UnityEngine.SceneManagement;
 
 public class StartUI : MonoBehaviour
 {
-
-    public void ToMain()
+    private AudioSource audioSource;
+    void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    public void OnClickStart()
+    {
+        StartCoroutine("StartAction");
+    }
+
+    IEnumerator StartAction()
+    {
+        audioSource.PlayOneShot(audioSource.clip);
+        yield return new WaitForSeconds(0.1f);
         SceneManager.LoadScene("Main");
     }
-    public void ToExit()
+
+    public void OnClickExit()
     {
+        StartCoroutine("ExitAction");
+    }
+
+    IEnumerator ExitAction()
+    {
+        audioSource.PlayOneShot(audioSource.clip);
+        yield return new WaitForSeconds(0.1f);
         //if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
         //else

@@ -17,6 +17,8 @@ public class PlayerMove : MonoBehaviour
     private readonly float posYClamp = 3.0f;
     private readonly float posZClamp = 3.0f;
 
+    public AudioClip shootAudio;
+
 
     // Start is called before the first frame update
     void Start()
@@ -57,6 +59,7 @@ public class PlayerMove : MonoBehaviour
     {
         GameObject newBullet = Instantiate(bulletPrefab, bulletPoint.position, Quaternion.identity) as GameObject;
         newBullet.GetComponent<Rigidbody>().AddForce(1000, 0, 0);
+        GetComponent<AudioSource>().PlayOneShot(shootAudio);
     }
     //à⁄ìÆêßå¿
     void MoveRestriction()

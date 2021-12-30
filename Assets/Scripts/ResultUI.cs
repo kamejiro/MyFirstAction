@@ -9,11 +9,10 @@ public class ResultUI : MonoBehaviour
     public GameObject result;
     public Text scoreText;
     public Text timerText;
-
-    // Start is called before the first frame update
+    private AudioSource audioSource;
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -27,13 +26,29 @@ public class ResultUI : MonoBehaviour
         }
     }
 
-    public void Restart()
+    public void OnClickRestart()
     {
-        SceneManager.LoadScene("Main");
-    }
-    public void ToStart()
-    {
-        SceneManager.LoadScene("Start");
+        StartCoroutine("RestartAction");
+        audioSource.PlayOneShot(audioSource.clip);
     }
 
+    IEnumerator RestartAction()
+    {
+        audioSource.PlayOneShot(audioSource.clip);
+        yield return new WaitForSeconds(0.1f);
+        SceneManager.LoadScene("Main");
+    }
+
+    public void OnClickHome()
+    {
+        StartCoroutine("HomeAction");
+        audioSource.PlayOneShot(audioSource.clip);
+    }
+
+    IEnumerator HomeAction()
+    {
+        audioSource.PlayOneShot(audioSource.clip);
+        yield return new WaitForSeconds(0.1f);
+        SceneManager.LoadScene("Start");
+    }
 }
