@@ -6,13 +6,25 @@ using UnityEngine.SceneManagement;
 
 public class ResultUI : MonoBehaviour
 {
+    [SerializeField]
     public GameObject result;
     public Text scoreText;
     public Text timerText;
+    public Text highScoreText;
+    private int highscore;
     private AudioSource audioSource;
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        if (PlayerPrefs.HasKey("highScore"))
+        {
+            highscore = PlayerPrefs.GetInt("highScore");
+        }
+        else
+        {
+            highscore = 0;
+        }
     }
 
     // Update is called once per frame
@@ -20,21 +32,28 @@ public class ResultUI : MonoBehaviour
     {
         if (Goal.isGoal)
         {
+            Time.timeScale = 0f;
             result.SetActive(true);
             scoreText.text = "Score: " + Score.score;
             timerText.text = "Time: " + Mathf.FloorToInt(Timer.time);
+            if (Score.score > highscore) highscore = Score.score; 
+            highScoreText.text = "HighScore: " + highscore;
+        }
+        else
+        {
+            Time.timeScale = 1f;
         }
     }
 
     public void OnClickRestart()
     {
         StartCoroutine("RestartAction");
-        audioSource.PlayOneShot(audioSource.clip);
     }
 
     IEnumerator RestartAction()
     {
         audioSource.PlayOneShot(audioSource.clip);
+        Goal.isGoal = false;
         yield return new WaitForSeconds(0.1f);
         SceneManager.LoadScene("Main");
     }
@@ -42,12 +61,12 @@ public class ResultUI : MonoBehaviour
     public void OnClickHome()
     {
         StartCoroutine("HomeAction");
-        audioSource.PlayOneShot(audioSource.clip);
     }
 
     IEnumerator HomeAction()
     {
         audioSource.PlayOneShot(audioSource.clip);
+        Goal.isGoal = false;
         yield return new WaitForSeconds(0.1f);
         SceneManager.LoadScene("Start");
     }

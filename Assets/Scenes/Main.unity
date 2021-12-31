@@ -2102,6 +2102,7 @@ MonoBehaviour:
   result: {fileID: 1116367677}
   scoreText: {fileID: 852402697}
   timerText: {fileID: 1980864467}
+  highScoreText: {fileID: 1373009835}
 --- !u!82 &1006747550
 AudioSource:
   m_ObjectHideFlags: 0
