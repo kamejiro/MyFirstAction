@@ -7,9 +7,12 @@ public class PlayerMove : MonoBehaviour
 {
     //参照の定義
     private Rigidbody rb;
+    public Transform mainCam;
     public GameObject bulletPrefab;
     public Transform bulletPoint;
+    public AudioClip shootAudio;
 
+    //変数定義
     public float speed;
     public float upForce = 200f;
     private bool isGround;
@@ -17,14 +20,13 @@ public class PlayerMove : MonoBehaviour
     private readonly float posYClamp = 3.0f;
     private readonly float posZClamp = 3.0f;
 
-    public AudioClip shootAudio;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         //参照の設定
         rb = GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        mainCam = Camera.main.transform;
     }
 
     void Update()
@@ -42,14 +44,20 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         //キーの取得
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
-        Vector3 vector3 = new Vector3(x, 0, z);
-        rb.AddForce(vector3 * speed);
+        float xMove = Input.GetAxisRaw("Horizontal") * Time.deltaTime * speed;
+        float zMove = Input.GetAxisRaw("Vertical") * Time.deltaTime * speed;
+
+        //向きの更新
+        if(zMove > 0)
+        {
+            transform.rotation = Quaternion.Euler(new Vector3(transform.rotation.x, mainCam.eulerAngles.y, transform.rotation.z));
+        }
+
+        //位置の更新
+        transform.position += transform.forward * zMove + transform.right * xMove;
         //MoveRestriction();
 
     }
@@ -61,6 +69,7 @@ public class PlayerMove : MonoBehaviour
         newBullet.GetComponent<Rigidbody>().AddForce(1000, 0, 0);
         GetComponent<AudioSource>().PlayOneShot(shootAudio);
     }
+
     //移動制限
     void MoveRestriction()
     {
@@ -69,6 +78,7 @@ public class PlayerMove : MonoBehaviour
                                          Mathf.Clamp(transform.position.z, -posZClamp, posZClamp));
     }
 
+    //落下処理
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Fall"))
