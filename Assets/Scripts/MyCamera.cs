@@ -8,6 +8,7 @@ public class MyCamera : MonoBehaviour
     //参照の定義
     public GameObject player;
     public Camera mainCam;
+    public Camera subCam;
 
     //変数定義
     //感度
