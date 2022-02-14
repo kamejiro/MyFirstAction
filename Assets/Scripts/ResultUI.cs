@@ -39,6 +39,10 @@ public class ResultUI : MonoBehaviour
             if (Score.score > highscore) highscore = Score.score; 
             highScoreText.text = "HighScore: " + highscore;
         }
+        else if (StopUIController.isStop)
+        {
+            Time.timeScale = 0f;
+        }
         else
         {
             Time.timeScale = 1f;
@@ -67,6 +71,7 @@ public class ResultUI : MonoBehaviour
     {
         audioSource.PlayOneShot(audioSource.clip);
         Goal.isGoal = false;
+        StopUIController.isStop = false;
         yield return new WaitForSeconds(0.1f);
         SceneManager.LoadScene("Start");
     }

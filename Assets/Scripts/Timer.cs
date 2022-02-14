@@ -16,7 +16,7 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!Goal.isGoal)
+        if ((!Goal.isGoal)&&(!StopUIController.isStop))
         {
             time += Time.deltaTime;
             GetComponent<Text>().text = "Time: " + Mathf.FloorToInt(time);
